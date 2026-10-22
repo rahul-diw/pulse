@@ -1,0 +1,21 @@
+# Render Blueprint: API + Python AI service. Set MONGO_URI (MongoDB Atlas) and CORS_ORIGIN in the dashboard.
+# Run ONE instance of the API (watchdog and per-project write locks are in-process).
+services:
+  - type: web
+    name: pulse-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - { key: MONGO_URI, sync: false }
+      - { key: JWT_SECRET, generateValue: true }
+      - { key: AI_URL, fromService: { type: web, name: pulse-ai, property: host } }
+      - { key: CORS_ORIGIN, sync: false }
+      - { key: SEED_DEMO, value: "false" }
+  - type: web
+    name: pulse-ai
+    runtime: docker
+    dockerfilePath: ./ai-service/Dockerfile
+    dockerContext: ./ai-service
+    healthCheckPath: /health

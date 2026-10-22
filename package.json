@@ -1,0 +1,12 @@
+{
+  "name": "pulse",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Pulse: live monitoring + AI watchdog. Root deps are shared by backend and frontend through /shared.",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "mingo": "^7.2.4",
+    "zod": "^4.6.7"
+  }
+}

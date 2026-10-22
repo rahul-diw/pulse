@@ -1,0 +1,21 @@
+# One command: docker compose up --build   ->  http://localhost:8080
+services:
+  mongo:
+    image: mongo:7
+    volumes: [mongo-data:/data/db]
+  ai:
+    build: ./ai-service
+  backend:
+    build: { context: ., dockerfile: backend/Dockerfile }
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+      AI_URL: http://ai:8000
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      SEED_DEMO: ${SEED_DEMO:-true}
+    depends_on: [mongo, ai]
+  frontend:
+    build: { context: ., dockerfile: frontend/Dockerfile }
+    ports: ["8080:80"]
+    depends_on: [backend]
+volumes:
+  mongo-data:

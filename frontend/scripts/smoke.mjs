@@ -1,0 +1,36 @@
+// Drives the whole UI (landing -> login -> every tab -> incident page -> live outage) in jsdom against the in-browser Pulse core.
+import { JSDOM } from 'jsdom';import fs from 'fs';
+const errs=[];let html=fs.readFileSync('dist-demo/index.html','utf8');const m=html.match(/<script type="module"[^>]*>([\s\S]*?)<\/script>/);
+const code=m[1].replaceAll('import.meta.url',"'https://x.test/'").replaceAll('import.meta.resolve','undefined');html=html.replace(m[0],'');
+const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,url:'https://x.test/#/',beforeParse(w){
+ w.IntersectionObserver=class{observe(){}unobserve(){}disconnect(){}};w.ResizeObserver=class{observe(){}unobserve(){}disconnect(){}};
+ w.matchMedia=q=>({matches:/reduce/.test(q),media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}});
+ w.structuredClone=structuredClone;Object.defineProperty(w,'crypto',{value:globalThis.crypto,configurable:true});w.scrollTo=()=>{};w.confirm=()=>true;
+ w.addEventListener('error',e=>errs.push('ERR '+e.message));w.addEventListener('unhandledrejection',e=>errs.push('REJ '+(e.reason?.message||e.reason)));
+ w.console.error=(...a)=>{const s=a.join(' ');if(!/not implemented|Could not parse CSS|GSAP target/.test(s))errs.push('CE '+s.slice(0,200))};
+}});
+const w=dom.window,d=w.document,sleep=ms=>new Promise(r=>setTimeout(r,ms)),q=s=>d.querySelectorAll(s).length,txt=s=>d.querySelector(s)?.textContent?.replace(/\s+/g,' ').slice(0,110);
+const nav=async h=>{w.location.hash=h;w.dispatchEvent(new w.HashChangeEvent('hashchange'));await sleep(700)};
+const wait=async(f,ms=20000)=>{const t=Date.now();while(Date.now()-t<ms){try{if(f())return true}catch{}await sleep(250)}return false};
+const btn=(sel,t)=>[...d.querySelectorAll(sel)].find(b=>b.textContent.includes(t));
+w.eval(code);await sleep(1500);
+console.log('landing: hero',q('.hero'),'| scenes',q('.scn'),'| floating cards',q('.fcard'),'| heartbeat',q('.hb'),'| sections',q('.sec'));
+await nav('#/login');btn('.demo .btn','Owner').click();console.log('demo engine booting (history runs through the real ingest + watchdog)...');
+const booted=await wait(()=>q('.kpi')===4,40000);console.log('logged in ->',w.location.hash,'| booted:',booted);
+await wait(()=>q('svg.lc')>=3);console.log('overview: KPIs',q('.kpi'),'| charts',q('svg.lc'),'| top routes',q('tbody tr'),'| project:',d.querySelector('.psel')?.value,'| tabs',q('.atabs a'),'| sim menu',q('.sim'));
+console.log('  throughput:',txt('.kpi:nth-child(1) b'),'| error rate:',txt('.kpi:nth-child(2) b'),'| p95:',txt('.kpi:nth-child(3) b'));
+await nav('#/app/p-demo/incidents');await wait(()=>q('.icard')>0);console.log('incidents list:',q('.icard'),'cards | first:',txt('.icard h3'));
+const href0=d.querySelector('.icard').getAttribute('href').replace(/^#/,'');await nav(href0);
+await wait(()=>q('.ai .sum')>0);console.log('incident page: title:',txt('.dh .ttl'),'\n  AI summary:',txt('.ai .sum'));console.log('  hints',q('.steps li'),'| signals',q('.sig'),'| routes',q('.rbar'),'| timeline',q('.tl li'),'| chart',q('svg.lc'),'| similar past:',q('.rec .rc'));
+await nav('#/app/p-demo/issues');await wait(()=>q('tbody tr')>0);console.log('issues:',q('tbody tr'),'rows | first:',txt('tbody tr td .mono'));
+const href=d.querySelector('tbody tr a').getAttribute('href').replace(/^#/,'');await nav(href);await wait(()=>q('.bars .bcol')>0);console.log('issue page: trend bars',q('.bars .bcol'),'| hints',q('.hint'),'| samples',q('.card .lg'),'| similar issues',q('.rec .rc'));
+await nav('#/app/p-demo/logs');await wait(()=>q('.logs .lg')>0);console.log('logs:',q('.logs .lg'),'lines | error lines',q('.logs .lg.error'));
+await nav('#/app/p-demo/metrics');await wait(()=>q('svg.lc')>0);console.log('metrics: chart',q('svg.lc'),'| stats',q('.stats3 b'));
+await nav('#/app/p-demo/uptime');await wait(()=>q('.mon')>=3);console.log('uptime monitors:',q('.mon'),'| up:',q('.mon.up'),'| strips',q('.strip u')>0);
+await nav('#/app/p-demo/alerts');await sleep(500);console.log('alerts: form fields',q('.pf input,.pf select'));
+await nav('#/app/p-demo/settings');await wait(()=>q('.code pre')>0);console.log('settings: key row',!!d.querySelector('.keyrow code'),'| snippet tabs',q('.tbar button'),'| team rows',q('table tbody tr'),'| notifications card',[...d.querySelectorAll('.card h3')].some(h=>h.textContent==='Notifications'));
+await nav('#/app/p-demo/overview');await wait(()=>q('.kpi')===4);
+d.querySelector('.sim summary').click();btn('.sim .menu button','Checkout outage').click();await sleep(800);console.log('simulate: ->',txt('.scn-chip')||txt('.toast'));
+console.log('letting the outage run so the watchdog sees 3 complete 10s buckets (about 50s)...');
+const hit=await wait(()=>q('.banner')>0,80000);console.log('incident banner appeared:',hit,hit?'| '+txt('.banner'):'');await sleep(30000);console.log('30s later the banner reads:',txt('.banner'));
+console.log(errs.length?[...new Set(errs)].slice(0,6).join('\n'):'NO RUNTIME ERRORS');process.exit(0);
