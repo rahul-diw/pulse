@@ -1,1 +1,11 @@
-{"installCommand":"npm ci && npm ci --prefix frontend","buildCommand":"npm run build --prefix frontend","outputDirectory":"frontend/dist","rewrites":[{"source":"/(.*)","destination":"/index.html"}]}
+{
+"installCommand": "npm install --workspaces=false",
+"buildCommand": "npm run build --prefix frontend",
+"outputDirectory": "frontend/dist",
+"rewrites": [
+{
+"source": "/(.*)",
+"destination": "/index.html"
+}
+]
+}
