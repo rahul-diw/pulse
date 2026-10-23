@@ -1,5 +1,5 @@
 {
-"installCommand": "npm install --workspaces=false",
+"installCommand": "npm ci && npm ci --prefix frontend",
 "buildCommand": "npm run build --prefix frontend",
 "outputDirectory": "frontend/dist",
 "rewrites": [
