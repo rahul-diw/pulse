@@ -142,3 +142,45 @@ MongoDB Atlas (free) -> Render Blueprint (`render.yaml`; set `MONGO_URI`, `CORS_
 - Designed an **AI watchdog** combining robust statistics (median/MAD) with an **Isolation Forest** that detects error-rate, latency and traffic anomalies, opens incidents with a data-driven summary and culprit route, escalates, notifies Slack, and auto-resolves.
 - Architected the API as a framework-free **shared core** that runs on the server and in the browser, so the live demo executes production logic; verified with 24 tests on synthetic traffic, 5 Python tests, an SDK-to-incident end-to-end script and a UI smoke test.
 - Shipped with Docker, GitHub Actions CI, Render and Vercel deploy configs.
+
+---
+
+## Dashboard Preview
+
+Explore the main features of Pulse through these screenshots.
+
+### Homepage
+
+![Pulse Homepage](screenshots/homepage.png)
+
+### Overview Dashboard
+
+![Pulse Overview](screenshots/overview.png)
+
+### Live Logs
+
+![Pulse Live Logs](screenshots/live-logs.png)
+
+### Issues
+
+![Pulse Issues](screenshots/issues.png)
+
+### Incidents
+
+![Pulse Incidents](screenshots/incidents.png)
+
+### Metrics
+
+![Pulse Metrics](screenshots/metrics.png)
+
+### Uptime Monitoring
+
+![Pulse Uptime](screenshots/uptime.png)
+
+### Alert Rules
+
+![Pulse Alerts](screenshots/alerts.png)
+
+### Settings
+
+![Pulse Settings](screenshots/settings.png)
