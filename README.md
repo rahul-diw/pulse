@@ -1,4 +1,24 @@
 # Pulse
+<p align="center">
+  <img src="screenshots/homepage.png" alt="Pulse — Live Monitoring Dashboard" width="100%" />
+</p>
+
+<h1 align="center">Pulse</h1>
+
+<p align="center">
+  Live monitoring with an AI watchdog.
+  <br />
+  Real-time logs, performance metrics, anomaly detection, and incident monitoring in one dashboard.
+</p>
+
+<p align="center">
+  <a href="https://pulse-eta-eight-32.vercel.app/">Live Demo</a>
+  ·
+  <a href="https://github.com/rahul-diw/pulse">GitHub Repository</a>
+</p>
+
+---
+
 
 **Live monitoring with an AI watchdog.** Add 3 lines to any app and logs, errors and metrics stream into a live dashboard. Pulse learns what "normal" looks like, and when something breaks it opens an **incident with a plain-language explanation** (which route is failing, the top error, the deploy behind it), notifies Slack, and closes the incident itself when things recover.
 
