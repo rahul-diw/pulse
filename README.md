@@ -101,6 +101,18 @@ Manage your project configuration.
 - **Alert rules** with thresholds, **deploy markers**, **team roles** (owner, admin, member, viewer), **Slack/Discord webhook** on open, escalate and resolve.
 - **"Simulate" button** on the demo project: outage, slow database, bad deploy, traffic spike. The synthetic traffic goes through the real ingest and watchdog.
 
+## Technical Highlights
+
+* **Real-time monitoring:** Streams application logs and monitoring events into the dashboard.
+* **Performance analytics:** Tracks request throughput, error rates, latency percentiles, and top routes.
+* **Anomaly detection:** Combines robust statistical analysis with an Isolation Forest model.
+* **Incident management:** Creates incidents from detected anomalies and supports escalation and auto-resolution.
+* **Issue grouping:** Fingerprints and groups related errors to simplify debugging.
+* **Developer SDK:** Provides an Express middleware and methods for logging, custom metrics, and deployment markers.
+* **Authentication and access control:** Uses JWT authentication, API-key-based ingestion, and role-based permissions.
+* **Deployment support:** Includes Docker configuration and deployment setups for Render and Vercel.
+
+
 ## Monitor your own app
 ```js
 import { Pulse } from './pulse.mjs';                       // sdk/pulse.mjs
