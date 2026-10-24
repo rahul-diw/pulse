@@ -40,6 +40,57 @@ flowchart LR
   WD -. /anomaly /similar .-> PY[Python FastAPI]
 ```
 
+## Dashboard Preview
+
+### Overview
+
+Monitor throughput, error rates, latency percentiles, routes, and active incidents from one dashboard.
+
+![Pulse Overview](screenshots/overview.png)
+
+### Live Logs
+
+Inspect incoming application events and investigate request-level activity.
+
+![Pulse Live Logs](screenshots/live-logs.png)
+
+### Issues
+
+Explore grouped errors and investigate recurring application problems.
+
+![Pulse Issues](screenshots/issues.png)
+
+### Incidents
+
+Review detected incidents, their severity, and the evidence behind an alert.
+
+![Pulse Incidents](screenshots/incidents.png)
+
+### Metrics
+
+Explore application performance and metric trends.
+
+![Pulse Metrics](screenshots/metrics.png)
+
+### Uptime Monitoring
+
+Track monitored endpoints and their availability.
+
+![Pulse Uptime](screenshots/uptime.png)
+
+### Alert Rules
+
+Configure thresholds and severity levels for monitoring alerts.
+
+![Pulse Alerts](screenshots/alerts.png)
+
+### Settings
+
+Manage your project configuration.
+
+![Pulse Settings](screenshots/settings.png)
+
+
 ## What it does
 - **Ingest:** requests (method, route, status, latency), logs, custom metrics, deploy markers. API-key auth, batching, rate limit.
 - **Live dashboard:** throughput, error rate, p50/p95/p99 (from histograms), top routes, deploy markers and incident bands on every chart; live log stream with filters; custom metrics explorer.
