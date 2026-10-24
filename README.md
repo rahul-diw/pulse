@@ -158,6 +158,18 @@ MongoDB Atlas (free) -> Render Blueprint (`render.yaml`; set `MONGO_URI`, `CORS_
 - Tested here: backend (in-memory store), Python service, the whole stack together, the UI in jsdom. **Not tested here:** a live MongoDB server (same store interface, run `docker compose up` once), a real Slack webhook, a real browser's rendering and animations.
 - Known limits: bucket writes are serialised per project **inside one process**, so run a single API instance (a multi-instance version needs `$inc` upserts); data is kept for 24 hours; API keys are stored in plain text (hash them before opening to the public).
 
+---
+
+## Author
+
+**Created by [Rahul Diwakar](YOUR_GITHUB_PROFILE_URL)**
+
+Built as a full-stack engineering project to explore real-time application monitoring, anomaly detection, incident management, and developer tooling.
+
+* **GitHub Repository:** https://github.com/rahul-diw/pulse
+* **Live Demo:** https://pulse-eta-eight-32.vercel.app/
+
+
 ## Resume bullets
 - Built **Pulse**, a live monitoring platform (React + TypeScript, Node/Express, MongoDB, Python FastAPI) with an SDK, ingest API, 10-second metric buckets with latency histograms (p50/p95/p99), error fingerprinting, JWT auth and 4-role RBAC.
 - Designed an **AI watchdog** combining robust statistics (median/MAD) with an **Isolation Forest** that detects error-rate, latency and traffic anomalies, opens incidents with a data-driven summary and culprit route, escalates, notifies Slack, and auto-resolves.
