@@ -1,5 +1,3 @@
-# Pulse
-
 <p align="center">
   <img src="screenshots/homepage.png" alt="Pulse — Live Monitoring Dashboard" width="100%" />
 </p>
