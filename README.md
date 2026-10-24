@@ -111,6 +111,27 @@ pulse.log('info', 'order placed', { id: 42 }); pulse.metric('queue.depth', 12); 
 ```
 Python or any language: `POST /api/ingest` with header `x-pulse-key` (see Settings > Install in the app).
 
+## Project Structure
+
+```text
+pulse/
+├── .github/          # GitHub workflows and automation
+├── ai-service/       # Python FastAPI anomaly detection service
+├── backend/          # Node.js, Express APIs and application logic
+├── frontend/         # React + TypeScript dashboard
+├── screenshots/      # Project screenshots for documentation
+├── scripts/          # Testing and automation scripts
+├── sdk/              # Pulse SDK and Express middleware
+├── shared/           # Shared application logic and utilities
+├── .env.example      # Example environment configuration
+├── docker-compose.yml
+├── package.json
+├── render.yaml       # Render deployment configuration
+├── vercel.json       # Vercel deployment configuration
+└── README.md
+```
+
+
 ## Run it
 ```bash
 cd ai-service && pip install -r requirements.txt && uvicorn app.main:app --port 8000     # optional: falls back to built-in models
